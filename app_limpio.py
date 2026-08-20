@@ -19,8 +19,8 @@ from openpyxl.styles import (
     Alignment,
 )
 from openpyxl.utils import get_column_letter
-from modelo_ia import clasificar_imagen
-from gemini_analisis import analizar_causas
+from ml.modelo_ia import clasificar_imagen
+from ml.gemini_analisis import analizar_causas
 from streamlit_option_menu import option_menu
 import io
 import re
@@ -44,7 +44,7 @@ from reportlab.platypus import (
 
 
 def cargar_tema(nombre_archivo):
-    ruta = Path(__file__).parent / "styles" / nombre_archivo
+    ruta = Path(__file__).parent / "static" / "styles" / nombre_archivo
 
     if ruta.exists():
         with open(ruta, "r", encoding="utf-8") as archivo:
@@ -57,7 +57,7 @@ def cargar_tema(nombre_archivo):
 
 
 def cargar_css(nombre_archivo):
-    ruta = Path(__file__).parent / "assets" / "css" / nombre_archivo
+    ruta = Path(__file__).parent / "static" / "assets" / "css" / nombre_archivo
 
     if ruta.exists():
         with open(ruta, "r", encoding="utf-8") as archivo:
@@ -72,7 +72,7 @@ def cargar_css(nombre_archivo):
 # ---------------- APP PRINCIPAL ----------------
 
 st.set_page_config(page_title="VisionQA", page_icon="🔍", layout="wide")
-with open("styles/styles.css", encoding="utf-8") as f:
+with open("static/styles/styles.css", encoding="utf-8") as f:
     st.markdown(
         f"<style>{f.read()}</style>",
         unsafe_allow_html=True,
@@ -172,7 +172,7 @@ st.markdown(
 
 archivo_csv = "registro_inspecciones.csv"
 
-os.makedirs("inspecciones", exist_ok=True)
+os.makedirs("media/inspecciones", exist_ok=True)
 
 if "inspeccion" not in st.session_state:
     st.session_state.inspeccion = False
@@ -465,9 +465,9 @@ def mostrar_modulo_inspeccion():
 
     def procesar_inspeccion(imagen, nombre_archivo, origen):
 
-        os.makedirs("inspecciones", exist_ok=True)
+        os.makedirs("media/inspecciones", exist_ok=True)
 
-        ruta_imagen = os.path.join("inspecciones", nombre_archivo)
+        ruta_imagen = os.path.join("media/inspecciones", nombre_archivo)
         with open(ruta_imagen, "wb") as archivo:
 
             archivo.write(imagen.getbuffer())
@@ -1235,7 +1235,7 @@ def mostrar_registro():
 
                 ruta_imagen = os.path.join(
                     os.path.dirname(os.path.abspath(__file__)),
-                    "inspecciones",
+                    "media/inspecciones",
                     os.path.basename(nombre_imagen)
                 )
 
@@ -3414,7 +3414,7 @@ def mostrar_login():
 
 
 def icono_svg(nombre, tamaño=22, margen_derecho=8):
-    ruta = Path(__file__).parent / "assets" / "icons" / nombre
+    ruta = Path(__file__).parent / "static" / "assets" / "icons" / nombre
 
     if not ruta.exists():
         return ""
@@ -3716,7 +3716,7 @@ def main():
     with st.sidebar:
 
         st.image(
-            "assets/logo_visionqa.png",
+            "static/assets/logo_visionqa.png",
             width=220,
         )
 

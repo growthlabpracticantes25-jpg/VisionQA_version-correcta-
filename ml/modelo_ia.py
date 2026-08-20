@@ -3,7 +3,7 @@ from pathlib import Path
 from ultralytics import YOLO
 
 
-RUTA_MODELO = Path("modelo IA/yolo/visionqa_yolo_v3_best.pt")
+RUTA_MODELO = Path(__file__).parent / "pesos" / "yolo" / "visionqa_yolo_v3_best.pt"
 
 if not RUTA_MODELO.exists():
     raise FileNotFoundError(
